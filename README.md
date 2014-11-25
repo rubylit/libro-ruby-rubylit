@@ -21,7 +21,7 @@ Partes
 Posibles fuentes
 ----------------
 
-* Traducción de LearningRuby empezada por miembros del grupo
+* Traducción de rubylearning empezada por miembros del grupo
 * Experiencias personales e investigación orientada al libro
 * Guía de Ruby de Matz
 * Aprenda a pensar como un programador (adaptado a Ruby)
