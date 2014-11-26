@@ -7,6 +7,7 @@ Ideas base
 ----------
 
 * En español
+* Introductorio / Nivel inicial
 * En papel (impresión pagada por sponsors que figurarán en la contratapa)
 * Los ejemplos de código deberían poder correrse para testear que funcionen ok
 
