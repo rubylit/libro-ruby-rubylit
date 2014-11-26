@@ -21,7 +21,7 @@ Partes
 Posibles fuentes
 ----------------
 
-* Traducción de rubylearning https://www.dropbox.com/sh/vvhkyj55in1nqgt/AAD2stsQpDpnaIFoiGdcjuGja?dl=0 empezada por miembros del grupo
+* Traducción de [rubylearning]( https://www.dropbox.com/sh/vvhkyj55in1nqgt/AAD2stsQpDpnaIFoiGdcjuGja?dl=0) empezada por miembros del grupo
 * Experiencias personales e investigación orientada al libro
 * Guía de Ruby de Matz
 * Aprenda a pensar como un programador (adaptado a Ruby)
