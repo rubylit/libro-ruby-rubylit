@@ -7,8 +7,8 @@ Ideas base
 ----------
 
 * En español
-* De libre distribución (ya que el objetivo es la difusión del conocimiento). Más adelante definiremos la licencia que llevará el libro #4.
-* Reusando lo que podamos (chequear que licencia tiene el material de rubylearning y la guía de matz en es.tldp)
+* De libre distribución (ya que el objetivo es la difusión del conocimiento). Más adelante definiremos la licencia que llevará el libro [#4](https://github.com/rubylit/libro-ruby-rubylit/issues/4).
+* Reusando lo que podamos (chequear que licencia tiene el material de rubylearning [#2](https://github.com/rubylit/libro-ruby-rubylit/issues/2) y la guía de matz en es.tldp.org [#3](https://github.com/rubylit/libro-ruby-rubylit/issues/3))
 * Introductorio / Nivel inicial
 * En papel (impresión pagada por sponsors que figurarán en la contratapa)
 * Los ejemplos de código deberían poder correrse para testear que funcionen ok
