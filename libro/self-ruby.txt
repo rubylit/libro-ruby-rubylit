@@ -1,5 +1,4 @@
-
-Self
+#Self
 
 En cada punto que su programa se ejecuta, hay un solo y solo uno **self** - el objeto actual o por omisión accesible por tí en tu programa. Puedes decir que objeto **self** representa siguiendo un pequeño conjunto de reglas.
 
