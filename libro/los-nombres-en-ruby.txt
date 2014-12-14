@@ -1,0 +1,113 @@
+---
+title:      Los nombres en Ruby
+created_at: 2011-01-18 12:20:38.354160 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+<strong>Los nombres Ruby</strong> se usa para referirse a constantes, variables, clases y módulos. El primer caracter del nombre le ayuda a Ruby distinguir su uso. Ciertos nombres son palabras reservadas y no deberían ser usados como nombre de variables, métodos, clases o módulos. Las letras minúsculas son los caracteres de la "a" a la "z". Las mayúsculas son los los caracteres "A" hasta "Z" y los dígitos son los "0" al "9". Un nombre es una letra mayúscula, letra minúscula o un guión bajo "_", seguido por los caracteres de nombre (esto es, cualquier combinación de letras minúsculas o mayúsculas, el guión bajo y dígitos).
+
+h2. Variables
+
+Las variables en Ruby pueden contener datos de cualquier tipo. Puedes usar variables en tu programa Ruby sin declaración alguna. El nombre de la variable en sí mismo denota su alcance (local, global, de instancia, etc.)
+
+<ul>
+<li>Un nombre de una  variable local (declarada dentro de un objeto) consiste de una letra minúscula (o un guión bajo) seguido de cualquier caracter (sunil, _z, golpea_y_corre).</li>
+<li>Un nombre de una variable de <strong>instancia</strong> (declarado dentro de un objeto siempre "pertenece a" lo que sea que el objeto self se refiera), comienza con un signo "at" ("@" seguido por un nombre (@signo, @_, @Counter).</li>
+<li>El nombre de una variable de <strong>clase</strong> (declarada dentro de una clase comienza con dos signos "at" ("@@") seguido por un nombre (@@signo, @_, @Counter). Una variable de clase se comparte entre todos los objetos de una clase. Sólo una copia de una variable de clase particular existe para una dada clase. Las variables de clases se utilizan en el nivel superior son definidos en Objetc y se comportan como variables globales. Las variables de clase se usan raramente en los programas Ruby.</li>
+<li>Los nombres de las variables <strong>globales</strong> comienzan con un signo de dólar ("$") seguidos por caracteres de nombre. Una variable global puede estar formado utilizando "$-" seguido por cualquier caracter simple ($counter, $COUNTER, $-x). Ruby define un número de variable globales que incluyen otros caracteres de puntuación, tales como $_ y $-K.</li>
+
+h2. Constantes
+
+Un nombre de <strong>constante</strong> comienza con una letra mayúscula seguida por caracteres de nombre. Los nombres de clases y de módulos son constantes y siguen la convención de los nombres de las constantes. Ejemplos: module MyMath, PI = 3.1415826, class MyPune.
+
+h2. Nombre de los métodos
+
+Los nombres de los métodos deberían comenzar con una letra minúscula (o un guión bajo ). "?", "!", y "=" son sólo caracteres inusuales permitidos para los métodos como sufijos (el ! o etiqueta bang indica un método peligroso. como el equivalente peligroso de un método con el mismo nombre pero sin el bang. Más sobre los métodos Bang más adelante).
+
+
+<table>
+<tr>
+<td>
+La convención Ruby es usar guiones bajos para separar palabras en métodos de varias palabras o nombre de variable. Por convención, muchas constantes están escritas con todos los caracteres en mayúsculas con guiones bajos para separar las palabras, COMO_ESTO. Las nombres de las clases y de los módulos también son constantes, pero por convención se escriben usando la primera letra mayúscula y la camellización, ComoEsto.
+Se debe notar que una variable dada puede contener en momentos distintos referencias a objetos de muchos tipos diferentes. Una constante Ruby es también una referencia a un objeto. Las constantes se crean cuando se las asigna por primera vez (normalmente en una definición de una clase o módulo; no deberían ser definidas en un método, luego se hablará más sobre las constantes). Ruby te deja alterar el valor de una constante, aunque esto generará un mensaje de advertencia. Además las variables actúan como "referencias" a objetos, lo que permite la recuperación automática de la memoria (garbage collection).
+</td>
+</tr>
+</table>
+
+Un ejemplo que muestra que Ruby es de tipado dinámico - <strong>p007dt.rb</strong>
+
+<% coderay(:lang => "ruby") do -%>
+# p007dt.rb  
+# Ruby is dynamic  
+x = 7         # integer  
+x = "house"   # string  
+x = 7.5       # real  
+   
+# In Ruby, everything you manipulate is an object  
+'I love Ruby'.length  
+<% end %>
+
+Los tipos básicos en Ruby son <strong>Numeric</strong> (los subtipos incluyen <strong>Fixnum</strong>, <strong>Integer</strong> y <strong>Float</strong>), <strong>String</strong>, <strong>Array</strong>, <strong>Hash</strong>, <strong>Object</strong>, <strong>Symbol</strong>, <strong>Range</strong> y <strong>RegExp</strong>.
+Aunque aún no has aprendido clases, de todos modos aquí hay más detalles de la clase llamada <strong>Float</strong>.
+<strong>Float</strong> es una subclae de <strong>Numeric</strong>.
+Los objetos <strong>Float</strong> representan números reales que usan la representación nativa de la arquitectura del punto flotante de doble precisión.
+
+<strong>DIG</strong> es una clase constante que da la presición de Float en dígitos decimales. <strong>MAX</strong> es otra clase constante que da el Float más grande.
+
+En mi PC, el siguiente código:
+
+<% coderay(:lang => "ruby") do -%>
+puts Float::DIG  
+<% end %>
+
+la salida es 15. Y:
+
+<% coderay(:lang => "ruby") do -%>
+puts Float::MAX  
+<% end %>
+
+La salida es: 1.79769313486232e+308
+
+Vamos el ejemplo del libro de Peter Cooper "Beginning Ruby" (no importa si no puedes seguir el código aún):
+
+<% coderay(:lang => "ruby") do -%>
+rice_on_square = 1  
+64.times do |square|  
+  puts "On square #{square + 1} are #{rice_on_square} grain(s)"  
+  rice_on_square *= 2  
+end  
+<% end %>
+
+En el escaque 64, ¡tendrás que poner varios trillones de granos de arroz en uno de ellos!
+
+Esto prueba que Ruby es capaz de lidiar con números extremadamente grandes y a diferencia de otros lenguajes de programación, no hay límites inconvenientes. Ruby hace esto con distintas clases, una denominada FixnumBignum, que representa "grandes" números que Ruby necesita para administrar internamente. Ruby manejará Bignums y Fixnums por tí, podrás hacer operaciones aritméticas y cualquier otra sin problema alguno. Los resultados pueden cambiar dependiendo de la arquitectura de tu sistema, pero como estos cambios son manejados por Ruby, no hay necesidad de preocuparse.
+
+Ruby no requiere que uses primitivas (tipos de datos) cuando se manipulan datos de estos tipos - si parece un entero, probablemente es un entero, si parece un string, probablemente es un string. La clase <string>Object</string> tiene un método llamado <strong>class</strong> que retorna la clase de un objeto, por ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+   s = 'hello'  
+   s.class  # String  
+<% end %>
+
+Otro ejemplo: (No te preocupes si no comprendes el código por ahora)
+
+<% coderay(:lang => "ruby") do -%>
+ puts 'I am in class = ' + self.class.to_s  
+ puts 'I am an object = ' + self.to_s  
+ print 'The object methods are = '  
+ puts self.private_methods.sort  
+<% end %>
+
+Hablaremos de <strong>self</strong> más luego. <strong>private_methods</strong> es un método de la clase <strong>Object</strong> y <strong>sort</strong> es un método de la clase <strong>Array</strong>
+
+En Ruby, todo lo que manipulamos es un objeto y el resultado de esas manipulaciones son objetos. No hay primitivas o tipos de dato.
+
+<% coderay(:lang => "ruby") do -%>
+ 5.times { puts "Mice!\n" } # more on blocks later  
+ "Elephants Like Peanuts".length  
+<% end %>
+
+

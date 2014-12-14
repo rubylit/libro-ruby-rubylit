@@ -1,0 +1,146 @@
+---
+title:     Self - el objeto por omisión/actual 
+created_at: 2011-01-20 11:09:53.217424 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+En cada punto que su programa se ejecuta, <i>hay un solo y solo uno</i> <strong>self</strong> - el objeto actual o por omisión accesible por tí en tu programa. Puedes decir que objeto <strong>self</strong> representa siguiendo un pequeño conjunto de reglas.
+
+h2. Contexto del nivel superior
+
+El contexto del nivel superior es antes de que entres a otro contexto, tal como la definición de una clase. Por lo tanto el térmito nivel superior se refiere al código escrito fuera de una clase o módulo. Si abres un archivo de texto y escribes:
+
+<% coderay(:lang => "ruby") do -%>
+    x = 1  
+<% end %>
+
+creaste una variable local de nivel superior: <strong>x</strong>. Si escribes:
+
+<% coderay(:lang => "ruby") do -%>
+   def m  
+   end  
+<% end %>
+
+creaste un metódo de nivel superior, un método de instancia de <strong>Object</strong> (aún cuando <strong>self</strong> no es un <strong>Object</strong>) Los métodos de nivel superior son siempre privados Ruby te provee con un <strong>self</strong> de inicio en el nivel superior. Si escribes:
+
+<% coderay(:lang => "ruby") do -%>
+   puts self  
+<% end %>
+
+muestra <strong>main</strong> un término especial por omisión que el objeto <strong>self</strong> usa para referirse a sí mismo. La clase de un objeto <strong>main</strong> es <strong>Object</strong>
+
+h2. Self dentro de la clase y de las definiciones de módulos
+
+En una clase o definición de módulo, <strong>self</strong> es la cla o el objeto módulo.
+
+<% coderay(:lang => "ruby") do -%>
+# p063xself1.rb  
+class S  
+  puts 'Just started class S'  
+  puts self  
+  module M  
+    puts 'Nested module S::M'  
+    puts self  
+  end  
+  puts 'Back in the outer level of S'  
+  puts self  
+end  
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+
+   >ruby p063xself1.rb  
+   Just started class S  
+   S  
+   Nested module S::M  
+   S::M  
+   Back in the outer level of S  
+   S  
+   >Exit code: 0  
+<% end %>
+
+h2. Self y las definiciones de instancia de método
+
+En en momento en se ejecuta la definición del método, todo lo que se puede decir es que <strong>self</strong> dentro de este método será algún objeto futuro que tiene acceso a este método.
+
+<% coderay(:lang => "ruby") do -%>
+   # p063xself2.rb  
+   class S  
+      def m  
+        puts 'Class S method m:'  
+        puts self  
+      end  
+   end  
+   s = S.new  
+   s.m  
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+   >ruby p063xself2.rb  
+   Class S method m:  
+   #<S:0x2835908>  
+   >Exit code: 0  
+<% end %>
+
+h2. Self en las definiciones del método singleton y el método de clase
+
+<i>Métodos singleton</i> - son los relacionados a un objeto particular que puede ser llamado por un solo objeto. Cuando se ejecuta un método singleton, <strong>self</strong> es el objeto que es propietario del método, como se muestra debajo:
+
+<% coderay(:lang => "ruby") do -%>
+   # p063xself3.rb  
+   obj = Object.new  
+   def obj.show  
+      print 'I am an object: '  
+      puts "here's self inside a singleton method of mine:"  
+      puts self  
+   end  
+   obj.show  
+   print 'And inspecting obj from outside, ' 
+   puts "to be sure it's the same object:"  
+   puts obj  
+<% end %>
+
+La salida del programa anterior es:
+
+<% coderay(:lang => "shell") do -%>
+
+>ruby p063xself3.rb  
+I am an object: here's self inside a singleton method of mine: 
+#<Object:0x2835688> 
+And inspecting obj from outside, to be sure it's the same object:  
+#<Object:0x2835688>  
+>Exit code: 0  
+
+<% end %>
+
+Los métodos de clase son definidos como métodos singletones para objetos de clase. Con referencia al siguiente programa:
+
+<% coderay(:lang => "ruby") do -%>
+# p063xself4.rb  
+ class S  
+ def S.x  
+     puts "Class method of class S"  
+     puts self  
+ end  
+end  
+S.x  
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+   >ruby p063xself4.rb  
+   Class method of class S  
+   S  
+   >Exit code: 0  
+<% end %>
+
+<strong>self</strong> dentro de método singleton (un método de clase, en este caso) es el objeto del método singleton que él es.
+

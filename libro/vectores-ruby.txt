@@ -1,0 +1,248 @@
+---
+title:      Vectores en ruby
+created_at: 2011-04-20 14:47:01.828512 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Un vector (<strong>array</strong>) es una lista de ítems en orden (como mahgos, manzanas y naranjas). Cada ranura en la lista funciona como una variable: puedes ver que ranura apunta a qué objeto en particular. En Ruby puedes hacer un vector utilizando los corchetes y el primer valor tiene el índice 0. Los métodos <strong>size</strong> y <strong>lengtg</strong> retornan el número de los elementos de un vector. 
+El último elemento de un vector tiene como índice <strong>size - 1</strong>. Los números negativos del índice cuentan desde el final del vector, de modo que el último elemento de un vector se puede acceder con el índice -1. Si intentas leer un elemento más allá del fin del vector (con un índice >= <strong>size</strong> o antes del comienzo de un vector (con un índice < <strong>-size</strong>), Ruby simplemente regresará <strong>nil</strong> y no iniciará un hilo con una excepción. Los vectores en Ruby son cambiantes, pueden cambiar dinámicamente de tamaño; puedes agregarle elementos y hacer que crezcan tanto como lo necesites.
+Veamos el siguiente ejemplo <strong>p018arrays.rb</strong>. Por favor sigue el ejemplo cuidadosamente
+
+<% coderay(:lang => "ruby") do -%>
+# p018arrays.rb
+# Vectores
+
+# vector vacio 
+var1 = []
+# Array index starts from 0
+puts var1[0]
+
+# un vector con un solo número 
+var2 = [5]
+puts var2[0]
+
+# un vector con dos strings
+var3 = ['Hello', 'Goodbye']
+puts var3[0]
+puts var3[1]
+
+flavour = 'mango'
+# an array whose elements are pointing
+# to three objects - a float, a string and an array
+var4 = [80.5, flavour, [true, false]]
+puts var4[2]
+
+# a trailing comma is ignored
+name = ['Satish', 'Talim', 'Ruby', 'Java',]
+puts name[0]
+puts name[1]
+puts name[2]
+puts name[3]
+# the next one outputs nil
+# nil is Ruby's way of saying nothing
+puts name[4]
+# we can add more elements too
+name[4] = 'Pune'
+puts name[4]
+# we can add anything!
+name[5] = 4.33
+puts name[5]
+# we can add an array to an array
+name[6] = [1, 2, 3]
+puts name[6]
+
+# some methods on arrays
+newarr = [45, 23, 1, 90]
+puts newarr.sort
+puts newarr.length
+puts newarr.first
+puts newarr.last
+
+# method each (iterator) - extracts each element into lang
+# do end is a block of code
+# we shall talk about blocks soon here -
+# http://rubylearning.com/satishtalim/ruby_blocks_and_procs.html
+# variable lang refers to each item in the array as it goes through the loop
+languages = ['Pune', 'Mumbai', 'Bangalore']
+
+languages.each do |lang|
+    puts 'I love ' + lang + '!'
+    puts 'Don\'t you?'
+end
+
+# delete an entry in the middle and shift the remaining entries
+languages.delete('Mumbai')
+languages.each do |lang|
+  puts 'I love ' + lang + '!'
+  puts 'Don\'t you?'
+end
+<% end %>
+
+El método <strong>each</strong> (para cada objeto) nos permite hacer algo (lo que querramos) a cada objeto al que apunta un vector. En el ejemplo, iremos a través de cada objeto del vector sin utilizar número alguno. He aquí algunas pocas cosas a recordar:
+
+# La variable <strong>lang</strong> dentro de "goalpost" se refiere a cada ítem del vector tal como va a través del lazo. Le puedes dar el nombre que desees, pero es desable que sea significativa. 
+# El <strong>do</strong> y el <strong>end</strong> identifican un bloque de código que será ejecutado por cada ítem. Los bloques son usados extensamente en Ruby. 
+
+Aquí hay un ejemplo interesante de un método que regresa un vector. Ejemplo <strong>p019mtdarry.rb</strong>
+
+<% coderay(:lang => "ruby") do -%>
+# p019mtdarry.rb
+# if you give return multiple parameters,
+# the method returns them in an array
+# The times method of the Integer class iterates block num times,
+# passing in values from zero to num-1
+
+def mtdarry
+  10.times do |num|
+    square = num * num
+    return num, square if num > 5
+  end
+end
+
+# using parallel assignment to collect the return value
+num, square = mtdarry
+puts num
+puts square
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "sh") do -%>
+>ruby p019mtdarry.rb
+6
+36
+>Exit code: 0
+<% end %>
+
+El método <strong>times</strong> de la clase <strong>Integer</strong> itera el bloque num veces, pasándole valores desde cero a num-1. Como podemos ver, si le das que regrese varios parámetros, el método los regresa en un vector. Puedes usar la asignación en paralelo para luego tomar esos valores.
+
+h2. Asignación en paralelo
+
+Para explicarlo, usaremos los términos lvalue y rvalue. Un lvalue es algo que puede aparecer por sí mismo en el lado izquierdo de una asignación (una variable, constante o un método de asignación de atributos). Un rvalue es algo que puede aparecer por sí mismo a la derecha. Ruby te permite tener una lista de rvalues separados por comas. Cuando Ruby ve más de un rvalue en una asignación, pone en marcha la asignación en paralelo. Primero se evalúan todos los rvalues, de izquierda a derecha y los colecciona en un vector (aunque éstos ya sean un vector). Este vector será eventualmente el valor que retorne toda la asignación. A continuación, se inspecciona el lado izquierdo, si tiene un solo elemento, el vector se le asigna a ese elemento.
+
+<% coderay(:lang => "ruby") do -%>
+a = 1, 2, 3, 4 # => a == [1, 2, 3, 4]  
+b = [1, 2, 3, 4] # => b == [1, 2, 3, 4]  
+<% end %>
+
+h2. Variables de entorno
+
+Una variable de entorno es un enlace entre nuestro programa y el mundo exterior. Una variable de entorno es esencialmente una etiqueta que refiere a un segmento de texto y se puede utilizar para guardar información de configuración tal como rutas, nombres de usuario y así siguiendo. Puedes acceder a las variables de entorno del sistema operativo utilizando la variable predefinida <strong>ENV</strong>
+
+<% coderay(:lang => "ruby") do -%>
+ENV.each {|k,v| puts "#{k}: #{v}"}  
+<% end %>
+
+Ruby asigna <strong>ENV</strong> a las variables de entorno. A posteriori, una iteración se itera procesando a cada una de ellas. En ese momento, el block toma dos parámetros: k (clave) y v (valor). Los blocks son un mecanismo completamente general y pueden tomar cualquier número de argumentos.
+
+Los valores de algunas variables de entorno se leen cuando Ruby se inicia por primera vez. Estas variables modifican el comportamiento del intérprete, como se muestra debajo.
+
+<img src="env.jpg">
+
+Un programa Ruby puede escribir al objeto <strong>ENV</strong>. En muchos sistemas, este cambia los valores correspondientes a las variable de entorno. Sin embargo, este cambio es local al proceso que lo hace y subsecuentemente se esparce a los procesos hijos. Un subproceso cambia una variable de entorno y este cambio es heredado por un procesos que comienza. Sin embargo, el cambio no es visible al padre original. (Esto prueba con certeza que los padres nunca saben en realidad que están haciendo sus hijos).
+
+<% coderay(:lang => "ruby") do -%>
+ENV["course"] = "FORPC101"  
+puts "#{ENV['course']}"  
+<% end %>
+
+h2. Argumentos de línea de comandos
+
+Si inicias un programa desde la línea de comandos, puedes agregarle parámetros al final y el programa los procesará.
+
+Puedes hacer lo mismo con tu aplicación Ruby. Ruby pone a los parámetros que agregues a la línea de comandos cuando lances tu programa Ruby en un vector especial llamado <strong>ARGV</strong> Si tu programa es:
+
+<% coderay(:lang => "ruby") do -%>
+ f = ARGV[0]  
+ puts f  
+<% end %>
+
+Si ejecutas el programa desde la línea de comandos de esta forma:
+
+<% coderay(:lang => "sh") do -%>
+  ruby tmp.rb 23  
+<% end %>
+
+El programa debería mostrar 23
+
+h2. Biblioteca GetoptLong
+
+La clase <strong>GetoptLong</strong> soporta el parseo de las opciones de línea de comando. Las opciones pueden ser un signo menos (-) seguido de un solo caracter o dos signos menos (--) seguidos por un nombre. Las opciones se pueden dar en cualquier orden. Una opción simple puede tener representaciones externas múltiples. Por ejemplo, la opción de salida detallada (verbose) podría indicarse con -v, --verbose o --details. Algunas opciones pueden tener además un valor asociado. Cada opción interna se pasa a <strong>GetoptLong</strong> como un vector, conteniendo strings que representan las opciones internas y las opciones. Las opciones especifican como <strong>GetoptLong</strong> asocia un argumento con la opcion (NO_ARGUMENT, REQUIRED_ARGUMENT, or OPTIONAL_ARGUMENT).    
+  
+Supongamos que queremos llamar a un programa Ruby de la siguiente forma:
+
+<% coderay(:lang => "sh") do -%>
+ ruby tsftpc.rb -hftp.ibiblio.org -n21 -uanonymous -ps@s.com  
+<% end %>
+
+
+Aquí está el código para ello:
+
+<% coderay(:lang => "ruby") do -%>
+require 'getoptlong'  
+# Call using "ruby tsftpc.rb -hftp.ibiblio.org -n21 -uanonymous -ps@s.com"  
+# The parameters can be in any order  
+unless ARGV.length == 4  
+  puts "Usage: ruby tsftpc.rb -hftp_site_url -nport_no -uuser_name -ppassword"  
+  exit  
+end  
+  
+host_name = port_no = user_name = password = ''  
+# specify the options we accept and initialize  
+# the option parser  
+opts = GetoptLong.new(  
+[ "--hostname", "-h", GetoptLong::REQUIRED_ARGUMENT ],  
+[ "--port", "-n", GetoptLong::REQUIRED_ARGUMENT ],  
+[ "--username", "-u", GetoptLong::REQUIRED_ARGUMENT ],  
+[ "--pass", "-p", GetoptLong::REQUIRED_ARGUMENT ]  
+)  
+# process the parsed options  
+opts.each do |opt, arg|  
+  case opt  
+    when '--hostname'  
+      host_name = arg  
+    when '--port'  
+      port_no = arg  
+    when '--username'  
+      user_name = arg  
+    when '--pass'  
+      password = arg  
+  end  
+end
+<% end %>
+
+<strong>require</strong> te da acceso a muchas extensiones y bibliotecas de programación que se distribuyen con Ruby, además de muchas otras extensiones y bibliotecas escritas de manera independiente por otros programadores y que se disponen para ser usadas con Ruby. Luego estudiaremos <strong><a href="incluyendo-otros-archivos-en-ruby.html">require</a></strong> con más detalles. Además estudiaremos como acceder a las <strong><a href="constantes-en-ruby.html"> constantes</a></strong> utilizando <strong>::</strong>
+
+¿Cómo convierto objetos en un <strong>Array</strong>? Si quieres envolver objetos en un <strong>Array</strong>, puedes utilizar un módulo <strong>Array</strong> especial del módulo <strong>Kernel</strong>. Este método especial convierte su argumento en un vector. Por ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+str = 'hello'  
+print Array(str).class # Array  
+<% end %>
+
+Otro ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+str = 'hello\nworld'  
+print Array(str) # ["hello\\nworld"]  
+<% end %>
+
+
+¿Cuáles son los ancestros de <strong>Array</strong>? Ejecuta el siguiente programa y lo encontrarás:
+
+<% coderay(:lang => "ruby") do -%>
+a = [1,2,3,4]  
+print a.class.ancestors  
+<% end %>
+
+Verás lo siguiente:
+
+<% coderay(:lang => "sh") do -%>
+[Array, Enumerable, Object, Kernel, BasicObject]  
+<% end %>
+
+Te puedes referir a todos los detalles de la <strong><a href="http://www.ruby-doc.org/ruby-1.9/classes/Array.html"> clase Array aquí</a></strong>.
+

@@ -1,0 +1,19 @@
+---
+title:      Caracteristicas
+created_at: 2011-01-12 11:33:38.745069 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+Algunas de las características de Ruby son las siguientes:
+
+<ol>
+<li> <strong>Formato libre</strong> - Puedes escribir tu programa desde cualquier línea y columna</li> 
+<li> <strong>Case sensitive</strong> - Se distingue entre mayúsculas y minúsculas. La palabra clave end, por ejemplo, es completamente distinta a la END.</li>
+<li> <strong>Comentarios</strong> - Todo lo que sigue a un # que esté sin comillas y hasta el final de la línea en que aparece, es ignorado por el intérprete. Para facilitar los bloques de comentarios largos, el intérprete de Ruby ignorará todo lo que está entre =begin y =end. Esto será así si el primer caracter es un = en cada una de las líneas.</li>
+<li><strong>Palabras claves (keywords)</strong> - Se conocen también como palabras reservadas (ellas son alrededor de 41) que en Ruby no pueden ser utilizados para otro propósito. Además de esas palabras claves, hay tres tokens simililares a keywords que son tratados especialmente por el intérprete Ruby cuando aparece al principio de la línea: =begin, =end, _END_  Debes estar pensando que un valor falso debe estar representado por un cero, un string vacío o un caracter nulo o cosas por el estilo. Pero en Ruby, todos estos *valores* son true, de hecho, todo es true excepto las palabras reservadas false y nil. Las keywords deberían ser denominadas "palabras reservadas" en muchos lenguajes y nunca se pueden permitir como identificadores. El parser de Ruby es flexible y no le importa si le pones a estas palabras claves prefijos tales como @m @@ o $ y los usa como instrancia, clase o nombre de variable global. Es una buena práctica tratar a estas keywords como reservadas.</li>
+<li><strong>Codificación del programa</strong> - Al más bajo nivel, un programa Ruby es simplemente una secuencia de caracteres. Las reglas lexicales de Ruby están definidas utilizando carachttp://cheat.errtheblog.com/teres ASCII. Todas las keywords están escritas usando caracteres ASCII. Todos los operadores y otras puntuaciones son construídos con el conjunto de caracteres ASCII</li>
+</ol>
+
+<strong>Documentación</strong> - La documentación completa para Ruby está disponible en línea <a href="http://www.ruby-doc.org/"> aquí</a>. La lista de trucos de Ruby está en este <a href="http://cheat.errtheblog.com/" >enlace</a>.

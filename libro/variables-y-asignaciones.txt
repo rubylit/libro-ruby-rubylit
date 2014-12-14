@@ -1,0 +1,81 @@
+---
+title:      Variables y asignaciones
+created_at: 2011-01-13 11:01:48.597561 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Para guardar un número o un string en la memoria de su computadora para poder utilizarlo a posteriori en su programa, necesitas darle a ese string o número un nombre. 
+Los programadores se refieren con frecuencia este procedimiento asignación y a los nombres, variables. Una variable salta a la existencia tan pronto como el intérprete ve una asignación a la variable mencionada.
+
+<% coderay(:lang => "ruby") do -%>
+s = 'Hello World!'  
+x = 10  
+<% end %>
+
+<table>
+<tr>
+<td>
+Una <i>bareword</i> es cualquier combinación de letras, números y guiones bajos y que no están cualificados por ningún símbolo
+(Referencia: <a>http://alumnus.caltech.edu/~svhwan/prodScript/avoidBarewords.html</a>). Las variables locales y las bareword lucen similares, deben comenzar con el guión bajo (_) o una letra minúscula, además deben consistir por completo de letras, números y guiones bajos. Recuerda que las referencias a las variables locales parecen métodos y que no se pueden usar palabras claves como nombre de variables.
+
+Los métodos también pueden denominarse con barewords, por ejemplo mi_metodo. get es una llamada a un método; también lo es system. Lo único que ve Ruby es una bareworde interpreta una de las tres cosas: (a) Si hay un signo igual (=) a la derecha de la bareword, es una variable local que tomará una asignación. (b) Ruby tiene una lista de palabras claves y la bareword podría ser una de ellas. (c) Si la bareword no es (a) o (b), se supone que la bareword es una llamada a un método local. Si no existe un método con ese error, Ruby llega a un <strong>NameError</strong>.
+</tr>
+</td>
+</table>
+
+El programa <strong>p004stringusage.rb</strong> nos muesta más el uso de las variables. 
+
+<% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
+# p004stringusage.rb  
+# Defining a constant  
+PI = 3.1416  
+puts PI  
+# Defining a local variable  
+myString = 'I love my city, Pune'  
+puts myString  
+=begin  
+   Conversions  
+   .to_i, .to_f, .to_s  
+=end  
+ var1 = 5;  
+ var2 = '2'  
+ puts var1 + var2.to_i  
+# << appending to a string  
+ a = 'hello '  
+ a<<'world. 
+ love this world...'  
+ puts a  
+=begin  
+  << marks the start of the string literal and  
+  is followed by a delimiter of your choice.  
+  The string literal then starts from the next  
+  new line and finishes when the delimiter is  
+  repeated again on a line on its own. This is known as  
+  Here document syntax.  
+=end  
+ a = <<END_STR  
+ This is the string  
+ And a second line  
+ END_STR  
+ puts a  
+
+<% end %>
+
+<table>
+<tr>
+<td>
+En el ejemplo:
+x = "200.0".to_f
+El punto significa que el mensaje "to_f" se envía a la cadena "200.0", o que el método to_f está siendo llamado con el string "200.0". El string "200.0" es llamado al receptor del mensaje. Por lo tanto, cuando ves un punto en este contexto, deberías interpretar que el mensaje (a la derecha) se le envía a un objeto (a la izquierda).
+</td>
+</tr>
+</table>
+
+h2. Resumen
+
+Listo a continuación todos los puntos que debes recordar luego de completar los siguientes tópicos:
+<a href="http://www.rubylearning.com.ar/introduccion.html">Introducción</a>, <a href="http://www.rubylearning.com.ar/ruby-install.html">Instalación</a>, <a href="http://www.rubylearning.com.ar/first-ruby-program.html">Primer programa Ruby</a>, <a href="http://www.rubylearning.com.ar/caracteristicas.html">Características de Ruby</a>, <a href="http://www.rubylearning.com.ar/numeros-en-ruby.html"> Números en Ruby</a>, <a href="http://www.rubylearning.com.ar/diversion-con-strings.html"> Diversión con strings</a> y <a href="http://www.rubylearning.com.ar/variables-y-asignaciones.html">Variables y asignaciones</a>.
+

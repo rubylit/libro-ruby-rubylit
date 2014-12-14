@@ -1,0 +1,179 @@
+---
+title:      Estructuras simples
+created_at: 2011-01-28 08:17:30.717056 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+
+En Ruby, sólo <strong>nil</strong> y <strong>false</strong> son evaluados como falso, todo lo demás (incluyendo 0), es verdadero. En Ruby <strong>nil</strong> es un objeto. Puedes agregar métodos a <strong>nil</strong> como a cualquier otro objeto y puedes llamar los métodos de nil como los de cualquier otro objeto.
+
+Vamos a explorar algunas estructuras muy simples disponibles en Ruby. El ejemplo que sigue (<strong>p014estructuras.rb</strong>) muestra la estructura <strong>if else end</strong>. Es costumbre en ruby no poner paréntesis con <strong>if</strong> y <strong>while</strong>.
+
+<% coderay(:lang => "ruby") do -%>
+# En Ruby, nil y false son evaluados como falso
+# todo lo demas (incluyendo 0) es verdadero.
+# nil es un objeto
+# if else end
+
+var = 5
+if var > 4
+   puts "La variable es mayor que 4"
+   puts "Puedo tener muchas declaraciones aqui"
+if var == 5
+    puts "Es posible tener if y else anidados"
+else
+    puts "Too cool"
+end
+ else
+   puts "La variable no es mayor que 4"
+   puts "Puedo tener muchas declaraciones aqui"
+end
+ 
+# Loops
+var = 0
+while var < 10
+  puts var.to_s
+  var += 1
+end
+<% end %>
+Un ejemplo del uso de <strong>elsif</strong> está en el programa <strong>p015elsif.rb</strong>:
+
+<% coderay(:lang => "ruby") do -%>
+# ejemplo del uso de elseif 
+ 
+# Ejemplo original
+puts "Hola, cual es tu nombre?"
+STDOUT.flush
+nombre = gets.chomp
+puts 'Hola, ' + nombre + '.'
+ 
+if nombre == 'Juan'
+   puts 'Que bonito nombre!!'
+else
+   if nombre == 'Ivan'
+      puts 'Ivan es Juan en ruso!!'
+   end
+end
+ 
+# Ejemplo modificado usando elsif
+puts "Hola, cual es tu nombre?"
+STDOUT.flush
+nombre = gets.chomp
+puts 'Hola, ' + nombre + '.'
+ 
+if nombre == 'Juan'
+     puts 'Que bonito nombre!!'
+elsif nombre == 'Ivan'
+     puts 'Ivan es Juan en ruso!!'
+end
+ 
+# Otra modificacion
+puts "Hola, cual es tu nombre?"
+STDOUT.flush
+nombre = gets.chomp
+puts 'Hola, ' + nombre + '.'
+ 
+# || es el operador logico 'o'
+if nombre == 'Juan' || nombre == 'Ivan'
+    puts 'Que bonito nombre!!'
+end
+<% end %>
+
+Algunos operadores condicionales comunes son: <strong>==, != <=, >=, <, ></strong>
+
+Ruby tiene también una forma negativa de <strong>if</strong>. La estructura <strong>unless</strong> comienza con la palabra <strong>unless</strong> y termina con <strong>end</strong>. El cuerpo es el texto que aparece en medio de las dos. A menos que la expresión que continúe a la palabra <strong>unless</strong> sea verdadera, el cuerpo es ejecutado, de lo contrario el intérprete lo ignora.
+
+<% coderay(:lang => "ruby") do -%>
+unless ARGV.length == 2
+   puts "Usage: program.rb 23 45"
+   exit
+end
+<% end %>
+
+En el programa anterior, el cuerpo es ejecutado a menos que el número de elementos en el array sea igual a 2. El método <strong>Kernel.exit</strong> termina el programa, regresando un valor de status al sistema operativo.
+
+En Ruby dispones de <strong>loops</strong> y de <strong>while</strong>. Observa el siguiente ejemplo:
+
+
+<% coderay(:lang => "ruby") do -%>
+# Loops
+
+var = 0
+while var < 10
+   puts var.to_s
+   var += 1
+end
+<% end %>
+
+h2. Tarea:
+
+<ol>
+<li>Escribe un programa (<strong>p016bisiesto.rb</strong>) que pregunte al usuario un año cualquiera y determine si es bisiesto o no.</li>
+<li>Escribe un método llamado bisiesto que acepte un año, determine si es bisiesto y calcule el número total de minutos para ese año. (<strong>p017metodobisiesto</strong>)</li>
+</ol>
+
+Para determinar si un año es bisiesto:
+
+<ol>
+<li>Si el año es divisible ente 4, ve al paso 2. Si no, ve al paso 5.</li>
+<li>Si el año es divisible ente 100, ve al paso 4. Si no, ve al paso 5i.</li>
+<li>Si el año es divisible ente 400, ve al paso 4. Si no, ve al paso 5.</li>
+<li>El año es bisiesto. (Tiene 365 días).</li>
+<li>El año no es bisiesto. (Tiene 365 días).</li>
+</ol>
+
+h2. Conditional ?:
+
+Como alternartiva a una sola sentencia <strong>if/else</strong> podemos usar el condicional u oprador ternario <strong>?:</strong>. Este es el único operador ternario (con tres operandos) en Ruby. Tiene la siguiente estructura básica:
+
+<% coderay(:lang => "ruby") do -%>
+(condition) ? (result if condition is true) : (result if condition is false)
+<% end %>
+
+El primero operando aparece antes del signo de interrogación. El segundo operando está entre el signo de interrogación y los dos puntos. El tercer operando aparece luego de los dos puntos. El signo de interrogación puede estar en la misma línea como el primer argumento y los dos puntos puede estar en en la misma línea como el segundo argumento. El operador <strong>?:</strong> siempre evalúa su primer operando. Si el primer operando es cualquier cosa distinta que <strong>false</strong> o <strong>nil</strong>, el valor de la expresión es el valor del segundo operando. De otro modo, si el primer operando es <strong>false</strong> o <strong>nil</strong>, el valor de la expresión es el valor del tercer operando. El operador <strong>?:</strong> funciona como una sentencia <strong>if/then/else</strong> compacta. Veamos un ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+   1. age = 15  
+   2. # We talk about the Range class later on  
+   3. # will output teenager  
+   4. puts (14...20).include?(age) ? "teenager" : "not a teenager"  
+<% end %>
+
+El operador ternario también puede ser útil para asignaciones condicionales:
+
+<% coderay(:lang => "ruby") do -%>
+age = 23  
+person = (14...20).include?(age) ? "teenager" : "not a teenager"  
+puts person # => "not a teenager"  
+<% end %>
+
+h2. Modificadores de sentencia
+
+Los modificadores de sentencia de Ruby son atajos útiles si el cuerpo de un <strong>if</strong> o una sentencia <strong>while</strong>. Simplemente escribe la expresión, seguido por <strong>if</strong> o <strong>while</strong> y la condición. Por ejemplo, aquí tenemos una sentencia <strong>if</strong> simple.
+
+<% coderay(:lang => "ruby") do -%>
+puts "Enrollments will now Stop" if participants > 2500  
+<% end %>
+
+h2. Expresiones case
+
+Esta estructura funciona de manera muy similar a una serie de expresiones <strong>if</strong>, te permite enumerar una serie de condiciones y ejecutar una expresión que corresponda al primer valor que sea verdadero. Por ejemplo, los años bisiestos deben ser divisibles entre 400 o entre 4 y no entre 100. Ten presente que case regresa el valor de la última expresión ejecutada.
+
+<% coderay(:lang => "ruby") do -%>
+year = 2000
+ 
+leap = case 
+   when year % 400 == 0: true
+   when year % 100 == 0: false
+   else year % 4 == 0
+end
+ 
+puts leap
+ 
+# el resultado es: true
+<% end %>
+
+

@@ -1,0 +1,121 @@
+---
+title: Más sobre strings - cadenas
+created_at: 2011-01-28 08:17:10.188646 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+h2. Más acerca de las cadenas (strings)
+
+Hay muchos métodos en la clase <strong>String</strong> (no tienes que memorizarlos todos; siempre puedes buscarlos en la documentación):
+<table><tr>
+<td>reverse</td><td>Regresa una copia de la cadena original con los caracteres en orden inverso. No modifica la cadena original.</td>
+</tr><tr>
+<td>lenght</td><td>Regresa el número de caracteres de la cadena (incluyendo espacios en blanco).</td>
+</tr><tr>
+<td>upcase</td><td>Regresa una copia de la cadena cambiando todos los caracteres a letras mayúsculas.</td>
+</tr><tr>
+<td>downcase</td><td>Regresa una copia de la cadena cambiando todos los caracteres a letras minúsculas.</td>
+</tr><tr>
+<td>swapcase</td><td>Regresa una copia de la cadena invirtiendo las letras mayúsculas y minúsculas.</td>
+</tr><tr>
+<td>capitalize</td><td>Regresa una copia de la cadena can el primer caracter en mayúscula.</td>
+</tr><tr>
+<td>slice</td><td>Regresa una subcadena de la cadena original</td>
+</tr><tr>
+</table>
+
+Los métodos <strong>upcase</strong>, <strong>downcase</strong>, <strong>swapcase</strong>, y <i>capitalize</i> tienen métodos correspondientes que modifican la cadena original en lugar de regresar una copia: <strong>upcase!</strong>, <strong>downcase!</strong>, <strong>swapcase!</strong>, <strong>capitalize!</strong>. Asumiendo que no necesitas conservar la cadena en su estado original, estos métodos ahorran memoria, particularmente si se trata de cadenas muy largas.
+
+Sabemos que las cadenas son secuencias de caracteres entre comillas sencillas o dobles. La diferencia entre las dos formas es cómo Ruby procesa cada una. En el caso de comillas sencillas, Ruby hace muy poco. En el caso de comillas dobles, Ruby tiene más trabajo que hacer. Primero, busca sustituciones (secuencias que comienzan con una diagonal invertida) y las reemplaza con algún valor binario. La segunda cosa que Ruby hace con cadenas entre comillas dobles es la interpolación de expresiones. Dentro de una cadena, la secuencia #{expresion} es reemplazada por el valor de la expresión. Observa el programa <strong>p013interpolacion.rb</strong>:
+
+<% coderay(:lang => "ruby") do -%>
+ def di_buenas_noches(nombre)
+   resultado = "Buenas noches, #{nombre}"
+   return resultado
+ end
+ puts di_buenas_noches('Juan')
+  
+ # programa modificado
+ #recuerda que en Ruby, los metodos regresan el valor de la ultima
+ #linea, por eso podemos expresar el mismo metodo de la siguente manera:
+ 
+ def di_buenas_noches2(nombre)
+   
+   "Buenas noches, #{nombre}"
+ end
+ puts di_buenas_noches2('Alvarez')
+<% end %>
+ 
+
+Es importante notar que cada vez que una cadena es utilizada en una asignación o como parámetro, se crea un nuevo objeto de la clase <strong>String</strong>.
+
+¿Cómo se maneja la memoria para las cadenas en Ruby? ¿Hay un pool separado para la cadenas? Las cadenas son objetos de la clase <strong>String</strong>. La clase <strong>String</strong> tiene más de 75 métodos estándar. De acuerdo a la guía de usuario de Ruby: “no tenemos que tomar en consideración el espacio que ocupa una cadena. Estamos libres de la administración de la memoria.”
+
+h2. Mostrar una lista de todos los métodos de una clase u objeto
+
+<ol>
+<li><strong>String.methods.sort</strong> Muestra una lista de los métodos a los que la clase <strong>String</strong> responde.</li>
+<li><strong>String.instance_methods.sort</strong> Muestra todos los métodos de instancia a los que responden los objetos de clase <strong>String</strong>.
+<li><strong>String.instance_methods(false).sort</strong> Muestra una lista de los métodos de instancia a los que responden los objetos de clase <strong>String</strong> excluyendo los métodos definidos en las clases de las que hereda la clase <strong>String</strong>.
+</ol>
+
+h2. Comparando igualdad de dos cadenas
+
+Las cadenas tienen varios métodos para probar su igualdad. El más común es == (doble signo de igual). Otra prueba de igualdad es el método <strong>String.eql?</strong>, que prueba si el contenido de dos cadenas es idéntico. Regresa el mismo resultado que ==. Un tercer método, <strong>String.equal?</strong> prueba si dos cadenas son el mismo objeto. Observa el ejemplo en <strong>p013strcmp.rb</strong>:
+
+<% coderay(:lang => "ruby") do -%>
+# String#eql?, prueba que dos cadenas tengan contenido identico.
+# Regresa el mismo resultado que ==
+# String#equal?, prueba que dos cadenas sean el mismo objeto.
+s1 = 'Jonathan'
+s2 = 'Jonathan'
+s3 = s1
+if s1 == s2
+   puts 'El contenido de ambas cadenas es idéntico.'
+else
+   puts 'El contenido de ambas cadenas no es idéntico.'
+end
+if s1.eql?(s2)
+  puts 'El contenido de ambas cadenas es idéntico.'
+else
+  puts 'El contenido de ambas cadenas no es idéntico.'
+end
+if s1.equal?(s2)
+  puts 'Las dos cadenas son el mismo objeto.'
+else
+  puts 'Las dos cadenas son el mismo objeto.'
+end
+if s1.equal?(s3)
+   puts 'Las dos cadenas son el mismo objeto.'
+else
+  puts 'Las dos cadenas son el mismo objeto.'
+end
+<% end %>
+
+h2. Usando %w
+
+Algunas veces, crear Arrays de palabras puedes ser tedioso con todas esas comas y comillas. Afortunadamente, Ruby tiene un atajo: <strong>%w</strong> hace justo lo que necesitamos.
+
+<% coderay(:lang => "ruby") do -%>
+nombres1 = ['ana', 'ricardo', 'guillermo', 'susana', 'paty']
+puts nombres1[0] # ana
+puts nombres1[3] # susana
+ 
+#esto es lo mismo:
+nombres2 = %w(ana ricardo guillermo susana paty)
+puts nombres2[0] # ana
+puts nombres2[3] # susana
+<% end %>
+
+<strong>Ejercicio:</strong> Si queremos invertir el orden de las palabras de una cadena (en vez de el orden de cada letra), podemos utilizar el método <strong>String.split</strong>, que regresa un vector de palabras. La clase <strong>Array</strong> (más de esta clase luego) tiene un método llamado <strong>reverse</strong>, así que puedes invertir el vector y luego unirlo de nuevo para crear la cadena.
+
+<% coderay(:lang => "ruby") do -%>
+palabras = 'Aprendiendo Ruby - Tu guia para aprender Ruby'
+puts palabras.split(' ').reverse.join(' ')
+ 
+# Ruby aprender para guia Tu - Ruby Aprendiendo
+<% end %>
+

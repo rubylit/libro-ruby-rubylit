@@ -1,0 +1,236 @@
+---
+title:      Escritura de métodos propios en Ruby 
+created_at: 2011-01-20 17:42:36.756026 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Con un simple programa veremos cómo podemos crear nuestros propios métodos: <strong>p008mymethods.rb</strong>. Observa que usamos <strong>def</strong> y <strong>end</strong> para declarar un método. Los parámetros son una simple lista de nombres de variables locales entre paréntesis.
+
+<table>
+<tr>
+<td>
+No declaramos el tipo del valor que devuelve el método porque retorna el valor de la última sentencia que se ejecuta dentro del mismo. Te recomiendo que dejes un línea en blanco entre las definiciones de los métodos. Los paréntesis alrededor de los argumentos del método son opcionales; nuestra convención es que los uses cuando un método tiene argumentos y los omitas cuando no los tenga. En Rails verás que a los métodos se los llaman sin paréntesis.
+</td>
+</tr>
+</table>
+
+<% coderay(:lang => "ruby") do -%>
+   # p008mymethods.rb  
+   # A method returns the value of the last line  
+   # Methods that act as queries are often named with a trailing ?  
+   # Methods that are "dangerous," or modify the receiver, might be named  
+   # with a trailing ! (Bang methods)  
+   # A simple method  
+   def hello  
+     'Hello'  
+   end  
+   #use the method  
+   puts hello  
+     
+  # Method with an argument - 1  
+  def hello1(name)  
+     'Hello ' + name  
+  end  
+  puts(hello1('satish'))  
+     
+  # Method with an argument - 2  
+  def hello2 name2  
+    'Hello ' + name2  
+  end  
+  puts(hello2 'talim')  
+<% end %>
+
+Esta es la salida que obtuve cuando lo ejecuté en mi PC:
+
+<% coderay(:lang => "shell") do -%>
+   >ruby p008mymethods.rb  
+   Hello  
+   Hello satish  
+   Hello talim  
+   >Exit code: 0  
+<% end %>
+
+Ruby te deja especificar los valores por omisión para los argumentos del método que se usarán por si cuando es invocaco no se los pasa de manera explícita. Puedes hacerlo usando el operador de asignación. Ver el ejemplo <strong>p009mymethods1.rb</strong>
+
+<% coderay(:lang => "ruby") do -%>
+   # p009mymethods1.rb  
+   # interpolation refers to the process of inserting the result of an  
+   # expression into a string literal  
+   # the interpolation operator #{...} gets calculated separately  
+   def mtd(arg1="Dibya", arg2="Shashank", arg3="Shashank")  
+     "#{arg1}, #{arg2}, #{arg3}."  
+   end  
+   puts mtd  
+   puts mtd("ruby")  
+<% end %>
+
+Esta es la salida que obtuve cuando lo ejecuté en mi PC:
+
+<% coderay(:lang => "shell") do -%>
+   >ruby p009mymethods1.rb  
+   Dibya, Shashank, Shashank.  
+   ruby, Shashank, Shashank.  
+   >Exit code: 0  
+<% end %>
+
+Por favor nota que por ahora no hay forma de especificar un valor para un segundo parámetro y usar el valor por omisión para el primer parámetro.
+
+En el programa de arriba el operador de interpolación <i>#{...}</i> se calcula por separado y el resultado de este cálculo se pegan automáticamente en el string. Cuando ejecutas estas líneas no ves el operador <i>#{...}</i> en tu pantalla, en su lugar ves los resultados de los cálculos o la evaluación que se hizo dentro del operador.
+ 
+
+<strong>Nota:</strong> Interpolación se refiere al proceso de insertar el resultado de una expresión dentro de un string literal. La manera de interpolar dentro de un string es colocar la expresión entre los simbolos <i>#{</i> y <i>}</i>. El siguiente ejemplo lo muestra:
+
+<% coderay(:lang => "ruby") do -%>
+puts "100 * 5 = #{100 * 5}"  
+<% end %>
+
+Esto muestra:
+
+<% coderay(:lang => "shell") do -%>
+ 100 * 5 = 500  
+<% end %>
+
+La sección #{100 * 5} interpola el resultado de 100 * 5 (500) dentro del string en la posición en la que está, resultando en la salida que se muestra.
+
+El ejemplo <strong>p010aliasmtd.rb</strong> muestra los Alias de los métodos.
+
+<% coderay(:lang => "ruby") do -%>
+   alias new_name old_name  
+<% end %> 
+
+crea un nuevo nombre que refiere a un método existente. Cuando se crea el alias de un método, el nuevo nombre se refiere a una copia del cuerpo original del cuerpo. Si después el método original se redefine, el método que fue creado con alias aún invocará la implementación original.
+
+<% coderay(:lang => "ruby") do -%>
+# p010aliasmtd.rb  
+# alias new_name old_name  
+# When a method is aliased, the new name refers  
+# to a copy of the original method's body  
+     
+def oldmtd  
+  "old method"  
+end  
+alias newmtd oldmtd  
+def oldmtd  
+  "old improved method"  
+end  
+puts oldmtd  
+puts newmtd
+<% end %>
+
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+ >ruby p010aliasmtd.rb  
+ old improved method  
+ old method  
+ >Exit code: 0  
+<% end %>
+
+<table>
+<tr>
+<td>
+<strong>alias</strong> crea un nuevo nombre que se refiere a un método existente, operador, variable global o una referencia inversa a una expresión regular ($&, $`, $' y $+). Las variables locales, variables de instancia, variables de clase y constantes no pueden tener alias. Los parámetros a alias pueden ser nombres o símbolos.
+</td>
+</tr>
+</table>
+
+¿Ruby nos permite escribir funciones que aceptan número variable de parámetros? Sí, ver el siguiente ejemplo, <strong>p011vararg.rb</strong>
+
+<% coderay(:lang => "shell") do -%>
+# p011vararg.rb  
+# variable number of parameters example  
+# The asterisk is actually taking all arguments you send to the method  
+# and assigning them to an array named my_string as shown below  
+# The do end is a Ruby block which we talk in length later  
+  def foo(*my_string)  
+    my_string.each do |words|  
+    words  
+  end  
+end  
+puts foo('hello','world')  
+puts foo()  
+<% end %>
+
+El asterisco lo que hace es tomar todos los argumentos, enviártelos al método y los asigna a un vector llamado <strong>my_string</strong>. El <strong>do end</strong> es un bloque Ruby. Comp puees ver, con el uso del asterisco puedes incluso no pasar argumento alguno. El código de arriba resultará en las palabras hello y world escritas en líneas sucesivas en la primer llamada al método y no se escribirá nada en la segunda llamada, tal como puedes ver a continuación:
+
+<% coderay(:lang => "shell") do -%>
+  >ruby p011vararg.rb  
+  hello  
+  world  
+  >Exit code: 0  
+<% end %>
+
+Si quieres incluir argumentos opcionales (*x), deben estar luego de cualquier argumento no opcional:
+
+<% coderay(:lang => "ruby") do -%>
+def opt_args(a,b,*x) # right
+def opt_args(a,*x,b) # wrong
+<% end %>
+
+¿Cuál es el máximo número de parámetros que podemos pasar en Ruby?  No hay límite para el número de parámetros.
+
+¿Cuál es la secuencia el el cual los parámetros se colocan en la pila? ¿De izquiera a derecha como C o de derecha a izquiera como Pascal? La respuesta es de izquierda a derecha tal como puedes verlo en el ejemplo <strong>p012mtdstack.rb</strong>.
+
+<% coderay(:lang => "ruby" ) do -%>
+# p012mtdstack.rb  
+# Sequence in which the parameters are put on to the stack is left to right  
+def mtd(a=99, b=a+1)  
+  [a,b]  
+end  
+puts mtd  
+<% end %>
+
+¿Los parámetros se pasan por valor o por referencia? Observa los siguientes ejemplos:
+
+<% coderay(:lang => "ruby" ) do -%>
+ def downer(string)  
+   string.downcase  
+ end  
+ a = "HELLO"  
+ downer(a)      # -> "hello"  
+ puts a         # -> "HELLO"  
+   
+ def downer(string)  
+   string.downcase!  
+ end  
+ a = "HELLO"  
+ downer(a)      # -> "hello"  
+ puts a         # -> "hello"  
+<% end %>
+
+
+Gary Wright en el foro Ruby publicó en respuesta a algunas publicaciones: "Es confuso para mí pensar acerca de métodos que retornen objetos, excepto que lo uses de diciendo, de manera muy específica, que los métodos retornan *referencias* a objetos. Esta es la idea unificadora que me ayuda a comprender como Ruby manipula los datos -- son todas referencias y no objetos en sí mismos. Los propios objetos en Ruby están ocultos por completo para el programador (excluyendo las extensiones en C). Todo es una referencia a un objeto.
+
+h2. Métodos Bang (!)
+
+Los métodos Ruby que modifican un objeto cuando se los invoca y terminan con un signo de admiración se conocen como métodos bang. Por convención, el bang etiqueta el método como peligroso - específicamente como la versión peligrosa de un método que tiene el mismo nombre pero sin el bang.
+
+Encontrarás algunos métodos que tienen un par, uno con el bang y otro sin él. Aquellos sin el bang ejecutan una acción y regresan un nuevo objeto cambiado, reflejando el resultado de la acción (capitalización de un string, clasificación de un vector, y así siguiendo). La versión con bang del mismo método, ejecuta la acción pero la hacen en el lugar. En vez de crear un objeto, transforman el objeto original.
+
+Los ejemplos de tales pares de métodos incluyen <strong>sort/sort!</strong> para vectores, <strong>upcase/upcase!</strong> para strings, <strong>chomp/chomp!</strong> para strings y <strong>reverse/reverse!</strong> para strings y vectores. En cada caso si llamas a la versión no bang del método al objeto, obtendrás un nuevo objeto. Si llamas a la versión bang, operarás sobre el mismo lugar y en el mismo bjeto que enviaste como mensaje.
+
+<table>
+<tr>
+<td>
+En Ruby puedes definir el nombre de un método que termine con el signo de admiración o bang. Los métodos con bang se llaman y se ejecutan como cualquier otro. Sin embargo, por convención, un método con el signo de admiración es considerado peligroso.
+
+<i>Para las clases incorporadas, por lo general (aunque no siempre) peligroso significa, en contrapartida a su equivalente sin bang, significa que modifica su receptor.</i>
+
+Hay unos pocos métodos sin bang que ejecutan acciones sobre el string original. Los nombres de estos métodos dejan claro que es lo que sucede (por ejemplo, replace) aunque no tienen un ! en el nombre.
+
+</td>
+</tr>
+</table>
+
+h2. Nombres de métodos que terminan con ?
+
+El signo de interrogación no tiene significado especial para el intérprete Ruby. Sin embargo, por convención, cualquier método que termine con ? regresa un valor que responde la pregunta formulada por la invocación del método. El método <i>empty?</i> de un vector, por ejemplo, retorna true si el vector no tiene elementos. La mayoría de esos métodos retornan un valor booleano de true o false, pero esto no es requerido, ya que cualquier otro valor que no se false o nil funciona como el valor booleano true si así se requiere. El método de Numeric nonzero?, regresa nil si el número con el que es invocado no es cero y regresa el número en el otro caso.
+
+h2. Resumen
+
+Listo a continuación todos los puntos importantes que necesitas recordar luego de haber completado los siguientes tópicos: Alcance, Obteniendo una entrada, Nombres en Ruby, Más sobre métodos Ruby y Escribiendo métodos Ruby.
+

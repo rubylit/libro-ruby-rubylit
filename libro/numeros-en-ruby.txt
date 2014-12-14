@@ -1,0 +1,107 @@
+---
+title:      Numeros-en-Ruby
+created_at: 2011-01-12 12:27:45.856946 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Juguemos con números. En Ruby, los números sin decimal son llamados enteros y los números con punto decimal se llaman por lo general de punto flotante (debes tener al menos un dígito luego del punto decimal). Un entero literal es simplemente una secuencia de dígitos, por ejemplo: 0, 123, 12345678. Se puede instertar un guión bajo (underscore) en un entero literal (que no sea al principio o al final), esta característica se usa generalmente para los separadores de los miles, por ejemplo 1_000_000. Los guiones bajos son ignorados en la cadena de dígitos. Veamos el programa <strong>p002rubynumbers.rb</strong>.
+
+<% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
+# p002rubynumbers.rb  
+=begin  
+ Ruby Numbers  
+  operators:  
+ + addition  
+ - subtraction  
+ * multiplication  
+ / division  
+=end  
+   
+puts 1 + 2  
+puts 2 * 3  
+# Integer division  
+# When you do arithmetic with integers, you'll get integer answers  
+puts 3 / 2  
+puts 10 - 11  
+puts 1.5 / 2.6  
+<% end -%>
+
+<table>
+<tr><td>
+Los enteros de Ruby son objetos de la clase Fixnum o Bignum. Las clases Fixnum y Bignum representan enteros de distintos tamaños. Ambas clases descienden de la clase Integer (y por lo tanto de la Numeric). Los números de punto flotante son objetos de la clase Float, correspondiente a la arquitectura nativa de doble tipo de datos. Las clases Complex, BigDecimal y Rational no están contruídas en el mismo Ruby pero se distribuyen como parte de Ruby en la librería standard. Hablaremos de esas clases después.
+</td></tr></table>
+
+La jerarquía de las clases se muestra en la figura de abajo (cortesía de <strong><a href="http://www.cs.mun.ca/%7Edonald/"> Donald Craig</a></strong>)
+
+<img src="class.gif">
+
+h2. Operadores y precedencia
+
+Démosle un vistazo a los operadores Ruby (cortesía de <strong>Dave Thomas - Programming Ruby</strong>). Están ordenados del mayor al menor orden de precedencia.
+
+<img src="operators.jpg">
+
+<table><tr><td>
+a. Los operadores incrementales y decrementales (++ y --) no están disponibles en Ruby, ni en la forma "pre" ni en la forma "post". Sin embargo, notar que los operadores += y -= sí están disponibles.
+b. Los paréntesis trabajan de la misma manera que en la aritmética regular. Todo lo que esté dentro de los paréntesis se calcula primero (o, más técnicamente, se le da mayor precedencia).
+c. Los operadores remarcados en la tabla son una especie de "sugar sintactic" (habrá más de esto después), algo que parece un operador es en realidad una llamada a un método.
+</td></tr></table>
+
+El comportamiento del operador módulo (%) en Ruby es como sigue:
+
+<% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
+puts (5 % 3)     # prints  2  
+puts (-5 % 3)    # prints  1  
+puts (5 % -3)    # prints -1  
+puts (-5 % -3)   # prints -2  
+<% end %>
+
+La definición del <strong>operador módulo (%) en Ruby difiere de la que tiene en C y Javai</strong>. En Ruby -7%3 es 2. En C y Java, el resultado es -1. <strong>En Ruby, el signo del resultado (para el operador %) es siempre el mismo que el signo del segundo operando</strong>.
+
+h2. Diferencia entre el operador or y el operador ||
+
+Los dos operadores <strong>or</strong> y <strong>||</strong> retorna el primer argumento a menos que sea <strong>false</strong>, en tal caso, evalúan y regresan el segundo argumento. Esto se ve en el siguiente ejemplo:
+ 
+
+<% coderay(:lang => "ruby") do -%>
+puts nil || 2008  
+puts false || 2008  
+puts "ruby" || 2008 
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "ruby") do -%>
+>ruby test.rb  
+2008  
+2008  
+ruby  
+>Exit code: 0  
+<% end %>
+
+La única diferencia entre <strong>or</strong> y <strong>||</strong> es su precedencia. <strong>||</strong> tiene mayor precedencia que <strong>or</strong>
+
+Un uso común para el <strong>||</strong> es la asignación a una variable si ésta no existe. Se puede escribir así:
+
+<% coderay(:lang => "ruby") do -%>
+@variable = @variable || "default value"  
+<% end %>
+
+O más idiomaticamente:
+
+<% coderay(:lang => "ruby") do -%>
+  @variable ||= "default value"  
+<% end %>
+
+Una de las razones para estas versiones alternativas de los operadores Booleanos es el hecho de que tienen menor precedencia que el operador de asignación. Esto significa que puedes escribir una expresión Booleana como la que sigue que asigna valores a las variables hasta que encuentra un valor false:
+
+<% coderay(:lang => "ruby") do -%>
+if a = f(x) and b = f(y) and c = f(z) then d = g(a,b,c) end  
+<% end %>
+
+Esta expresión simplemente no funcionaría si se escribiera con <strong>&&</strong> en lugar de <strong>and</strong>
+
+

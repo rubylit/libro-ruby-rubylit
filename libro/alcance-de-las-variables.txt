@@ -1,0 +1,30 @@
+---
+title:      Alcance de las variables
+created_at: 2011-01-18 11:08:18.731786 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+El alcance o scope se refiere al rango de visibilidad de las variables. Diferentes tipos de variables tienen distintas reglas para este alcance o scope. Hablaremos brevemente de dos de estos tipos: variables locales y globales.
+
+h2. Alcance de las variables globales y las locales.
+
+Comenzaremos con el alcance que se usa con menos frecuencia, pero de las cuales debemos estar advertidos: el alcance global, el que cubre todo el programa. El alcance global es gozado por las variables globales. Las variables globales se distinguen porque empiezan con el caracter del signo de dólar ($). Ellas están disponibles en todo tu programa. Las variables globales nunca se van del alcance. Sin embargo la variables globales son usadas muy poco por los programadores experimentados (con la excexcepción, quizás, de las pocas que están predefinidas)
+
+h2. Variables globales predefinidas
+
+El intérprete Ruby se inicia on un número bastante grande de variables globales predefinidas. Estas variables guardan información que potencialmente se puede usar en cualquier lado de tu programa. Por ejemplo, la variable global <strong>$0</strong> contiene el nombre del archivo Ruby que se está ejecutado. La variable global <strong>$:</strong> (signo de dólar seguido de dos puntos) contiene los directorios en los que busca Ruby para cargar un archivo externo. <strong>$$</strong> contiene el id del proceso de Ruby. Y hay muchas más.
+
+h2. Alcance local
+
+<strong>Nota:</strong> no te preocupes si no comprendes esto ahora.
+Puedes decir dónde empieza y termina el alcance de una variable local mirando un programa Ruby siguiendo unas pocas reglas:
+
+<ul>
+<li>El nivel superior (por afuera de todas las definiciones de los bloques) tienen su propio alcance.</li>
+<li>Cada clase o bloque definición de módulo (clase, módulo) tiene su propio alcance local, aún en las definiciones de bloques de clases/módulos anidados.</li>
+<li>Cada método de definición (def) tiene su propio alcance global</li>
+</ul>
+

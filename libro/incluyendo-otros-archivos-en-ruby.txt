@@ -1,0 +1,72 @@
+---
+title:      Incluyendo otros archivos en ruby
+created_at: 2011-04-27 09:54:19.645822 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Cuando escibimos nuestros primeros programas en Ruby, tendemos a poner todo el código en un solo archivo. Pero a medida que crezcas como un programador Ruby, sus programas también crecerán en tamaño y en algún momento te darás cuenta que tener un solo archivo contiendo todo tu código no es algo que quieras hacer. Es sencillo partir tu código en agrupaciones lógicas y poner a cada grupo en un archivo o archivos separados. Cuando comiences a usar muchos archivos, necesitas los métodos de Ruby <strong>require</strong> y <strong>load</strong> (ambas son funciones globales definidas en <strong>Object</strong>, pero se utilizan como keywords del lenguaje) que ayudan a incluir otros archivos en tus programas.
+
+El método <strong>load</strong> incluye a la fuente Ruby mencionada cada vez que se ejecuta.
+
+<% coderay(:lang => "ruby") do -%>
+   load 'filename.rb'  
+<% end %>
+
+El método que se usa más comunmente es el <strong>require</strong>, el cual carga el archivo sólo una vez:
+
+<% coderay(:lang => "ruby") do -%>
+require 'filename'  
+<% end %>
+
+<strong>require</strong> te da acceso a muchas extensiones y bibliotecas de programación que se distribuyen con Ruby, además de muchas otras extensiones y bibliotecas escritas de manera independiente por otros programadores y que se disponen para ser usadas con Ruby. 
+
+Notar que debes decir <strong>require 'filename'</strong> y no <strong>require 'filename.rb'</strong>. Además de lucir mejor, esta manera de referirse a la extensión, es necesaria porque no todas las extensiones terminan en .rb. Específicamente, las extensiones escritas en C se guardan en archivos terminados en .so o .dll. Para mantener el proceso tan transparente como sea posible y evitarte el problema de saber si la extensión que quieres es un archivo .rb o es no-Ruby, acepta una sin extensión y luego se hace una búsqueda automática intentando todos los nombres de archivo hasta que se encuentra la extensión que has requerido. 
+
+<table>
+<tr><td>
+<strong>require(string) => true ó false</strong>
+Ruby intenta cargar la biblioteca denominada string, retornando <strong>true</strong> si tuvo éxito. Si el nombre del archivo no se resuelve en una ruta absoluta, se lo buscará en las bibliotecas listadas en <strong>$:</strong>. Si el archivo tiene una extensión ".rb", se cargará como código fuente, si la extensión es ".so", ".o" o ."dll" o cualquier extensión de una biblioteca compartida de la plataforma en que se ejecuta Ruby, éste cargará la biblioteca compartida como una extensión del lenguaje. De otro modo, Ruby le agregará ".rb", ".so" y así siguiendo al nombre. El nombre de la característica cargada se agrega al vector en <strong>$:</strong>.
+</td></tr>
+</table>
+
+<table>
+<tr><td>
+<strong>EN RAILS:</strong> Rails usa <strong>load</strong> antes que <strong>require</strong>, por ejemplo, en modo de desarrollo - lo que significa que estás probando tu aplicación en el navegador y haciendo cambios al código al mismo tiempo, tus cambios se recargarán, sobrepasando cualquier comportamiento de cache por parte del servidor web. Múltiples llamadas a <strong>require</strong> en el mismo lugar no tienen el mismo efecto si la aplicación ya tiene leído el archivo en algún momento.
+</td></tr>
+</table>
+
+Ahora veamos un ejemplo de otra clase: <strong>p030motorcycle.rb</strong>
+
+<% coderay(:lang => "ruby") do -%>
+class MotorCycle  
+  def initialize(make, color)  
+    # Instance variables  
+    @make = make  
+    @color = color  
+    end  
+  def startEngine  
+    if (@engineState)  
+      puts 'Engine is already Running'  
+    else  
+      @engineState = true  
+      puts 'Engine Idle'  
+    end  
+  end  
+end  
+<% end %>
+
+Escribamos otro programa <strong>p031motorcycletest.rb</strong> para probar la clase anterior.
+
+<% coderay(:lang => "ruby") do -%>
+# p031motorcycletest.rb  
+require_relative 'p030motorcycle'  
+m = MotorCycle.new('Yamaha', 'red')  
+m.startEngine  
+<% end %>
+
+Utilizamos <strong>require_relative</strong> (introducido en Ruby 1.9) para esto debido a que el lugar del archivo que estamos cargando se relaciona con el el archivo desde lo estamos cargando, por lo tanto los dos están en el mismo directorio.
+
+

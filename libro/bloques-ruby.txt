@@ -1,0 +1,193 @@
+---
+title:     Code blocks 
+created_at: 2011-01-28 08:17:48.272858 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Los <strong>Code blocks de Ruby</strong> (denominados closures en otros lenguajes) son definitivamente una de las características más atractivas de Ruby. Son trozos de código entre llaves o entre <strong>do - end</strong> que puedes asociar con invocacionas a métodos, casi como si ellos fueran parámetros. Un block de Ruby es una manera de agrupar sentencias y pueden aparecer en el fuente adyacente a la llamada a un método; el block se escribe comenzando con la misma línea como el método a llamar con último parámetro (o el paréntesis de cierre de la lista de parámetros). El código en el bloque no se ejecuta en el momento en que se lo encuentra. En lugar de esto, Ruby recuerda el contexto en el que aparece de block (las variables locales, los objetos activos y así siguiendo) y luego entra el método.
+
+
+Lo estandar en Ruby es usar llaves para bloques de una sola línea y <strong>do - end</strong> para bloques de varias líneas. Tenga en cuenta que la sintaxis entre llaves tiene mayor precedencia que la sintaxis <strong>do..end</strong>. Las llaves tiene una mayor precedencia, <strong>do</strong> tiene una menor precedencia. Si la invocación tiene parámetros que no están entre paréntisis, la forma de llave de un block, se conectará al último parámetro, no a toda la invocación. La forma <strong>do</strong> se conecta con la invocación.
+
+Matz dice que cualquier método se puede llamar con un block como argumento implícito. Dentro del método, puedes llamar el block utilizando la palabra clave <strong>yield</strong> con un valor.
+
+Como pronto aprenderás, los blocks pueden tener sus propios argumentos. En Ruby hay muchos métodos que iteran sobre un rango de valores. Muchos de estos iteradores están escritos de tal modo que pueden ser capaces de tomar un code block como parte de su sintaxis de llamado. El método puede ceder el control al bloque de código (es decir, ejecutar el bloque) durante la ejecución de las veces que sea necesario para la iteración para completar (por ejemplo, si estamos iterando sobre los valores de un vector podemos ejecutar el block las veces tantas veces como valores hay en el vector , etc.)
+
+Una vez que has creado un block, puedes asociarlo con la llamada a un método. Normalmente los code blocks pasados dentro de métodos son objetos anónimos, creados en el
+momento. Por ejemplo, en el código siguiente, el block que contiene <strong>puts "Hello"</strong> se asocia con la llamada al método <strong>greet</strong>.
+
+<% coderay(:lang => "ruby") do -%>
+   greet {puts 'Hello'}
+<% end %>
+
+Si el método tiene parámetros, aparecen antes del block.
+
+<% coderay(:lang => "ruby") do -%>
+ verbose_greet("PuneRuby") {puts 'Hello'}  
+<% end %>
+
+Un método puede invocar un block asociado una o más veces la sentencia Ruby <strong>yield</strong>. Por lo tanto cualquier método que quieras que tenga un block como parámetro puede usar la palabra clave <strong>yield</strong> para ejecutar el block en cualquier momento.
+
+El programa <strong>p022codeblock.rb</strong> ilustra lo que hemos expuesto.
+
+<% coderay(:lang => "ruby") do -%>
+=begin  
+Ruby Code blocks are chunks of code between braces or  
+between do- end that you can associate with method invocations  
+=end  
+def call_block  
+   puts 'Start of method'  
+   # you can call the block using the yield keyword  
+   yield  
+   yield  
+   puts 'End of method'  
+end  
+# Code blocks may appear only in the source adjacent to a method call  
+call_block {puts 'In the block'}  
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+   >ruby p022codeblock.rb  
+   Start of method  
+   In the block  
+   In the block  
+   End of method  
+   >Exit code: 0  
+<% end %>
+
+Si provees un code block cuando llamas a un método, luego dentro del método, puedes cederle el control a aquel code block - suspender la ejecución del método, ejecutar el code block y retornar el control al cuerpo del método, justo después de la llamada a <strong>yield</strong>.  Si no se le pasa un code block, Ruby genera una excepción.
+
+<% coderay(:lang => "ruby") do -%>
+ no block given (LocalJumpError) 
+<% end %>
+
+Puedes proveer parámetros para llamar a <strong>yield</strong>: éstos serán pasados al block. Dentro del block, lista los nombres de los argumentos para a recibir los parámetros entre barras verticales (||).
+
+El programa <strong>p023codeblock2.rb</strong> ilustra lo mencionado.
+
+<% coderay(:lang => "ruby") do -%>
+# You can provide parameters to the call to yield:  
+# these will be passed to the block  
+def call_block  
+   yield('hello', 99)  
+end  
+call_block {|str, num| puts str + ' ' + num.to_s}  
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+ >ruby p023codeblock2.rb  
+ hello 99  
+ >Exit code: 0 
+<% end %>
+
+Notar que el código en el block no se ejecuta la vez que el intérprete Ruby lo ecuentra, En lugar de eso, Ruby recuerda el contexto en que block aparece y luego ingresa al método.
+
+El valor de retorno del code block (tal como sucede con los métodos) es el valor de la última expresión evaluada en el code block. El valor de retorno se hace disponible dentro del método, regresa como un valor de retorno de <strong>yield</strong>.
+
+<strong>block_given?</strong> regresa <strong>true</strong> si <strong>yield</strong> ejecutaría un bloque en el contexto corriente. Referirse al siguiente ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+def try  
+   if block_given?  
+     yield  
+   else  
+     puts "no block"  
+   end  
+end  
+ try # => "no block"  
+ try { puts "hello" } # => "hello"  
+ try do puts "hello" end # => "hello"  
+<% end %>
+
+h2. Variables de Block
+
+Veamos que sucede en el siguiente ejemplo cuando una variable fuera de un bloque es <strong>x</strong> y un parámetro del block también se denomnina <strong>x</strong>.
+
+<% coderay(:lang => "ruby") do -%>
+ x = 10  
+ 5.times do |x|  
+   puts "x inside the block: #{x}"  
+ end
+  
+ puts "x outside the block: #{x}"  
+<% end %>
+
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+   x inside the block: 0  
+   x inside the block: 1  
+   x inside the block: 2  
+   x inside the block: 3  
+   x inside the block: 4  
+   x outside the block: 10  
+<% end %>
+
+Observarás que luego de que el bloque se ejecuta, <strong>x</strong> fuera del bloque es el <strong>x</strong> original. Dentro del bloque el parámetro <strong>x</strong> fue local al bloque.
+
+Ahora observa que sucede con <strong>x</strong> en el siguiente ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+ x = 10  
+ 5.times do |y|  
+   x = y  
+   puts "x inside the block: #{x}"  
+ end  
+     
+ puts "x outside the block: #{x}"  
+<% end %>
+
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+   x inside the block: 0  
+   x inside the block: 1  
+   x inside the block: 2  
+   x inside the block: 3  
+   x inside the block: 4  
+   x outside the block: 4  
+<% end %>
+
+Ya que <strong>x</strong> no es un parámetro de bloque aquí, la variable <strong>x</strong> es la misma dentro que fuera del bloque.
+
+En Ruby 1.9.x, los bloques introducen su propio scope sólo para los parámetros de bloques. Esto se ilustra en el siguiente ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+  x = 1200  
+  puts "Before the loop, x = #{x}"  
+    
+ 3.times do|y;x|  
+    puts "Looping #{y}"  
+    x = y  
+ end  
+    
+ puts "After the loop, x = #{x}"  
+<% end %>
+
+La salida es:
+
+<% coderay(:lang => "shell") do -%>
+  Before the loop, x = 1200  
+  Looping 0  
+  Looping 1  
+  Looping 2  
+  After the loop, x = 1200  
+<% end %>
+
+En el bloque de arriba, se usa una nueva característica: la variable de bloque local. En breve, las variables de bloque locales protegen a un bloque de manipulación de variables fuera de su scope o alcance. Esto previene que un bloque sobreescriba a cualquier variable fuera de su alcance. Si no quieres que una variable sea sobreescrita, usa variables de bloque locales dentro de los bloques que construyas.
+
+La sintaxis de una variable local de bloque es simple. Pon un punto y coma luego de la lista de parámetros normales del bloque, luego lista las variables de bloque como variables locales del bloque. Por ejemplo, si el bloque tiene dos variables a y b, y usa las variables locales x e y, la lista de parámetros debería ser algo como estgo: <strong>|a,b; x,y|</strong>
+
+h2. Resumen
+
+Listamos aquí los puntos más importantes que necesitas recordar luego de que hayas completado los siguientes tópicos: <a href="la-herramienta-ruby-ri.html">La herramienta ri de Ruby</a>, <a href="mas-sobre-strings.html">Más sobre strings</a>, <a href="construcciones-simples.html">Construcciones simples</a> y <a href="bloques-ruby.html">Bloques Ruby</a>.
+

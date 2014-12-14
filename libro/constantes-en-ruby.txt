@@ -1,0 +1,111 @@
+---
+title:     Constantes en Ruby 
+created_at: 2011-04-27 13:46:42.300844 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Las constantes en Ruby son como una variable, excepto que su valor se supone que permanece constante mientras el programa se ejecute. El intérprete de Ruby no tiene en realidad una forma de forzar la invariancia de las constantes, pero nos da un aviso si el programa cambia un valor de una constante (como mostramos en el siguiente ejemplo trivial) <strong>p054constwarn.rb</strong>
+
+<% coderay(:lang => "ruby") do -%>
+# p054constwarn.rb  
+A_CONST = 10  
+A_CONST = 20  
+<% end %>
+
+Genera un aviso:
+
+<% coderay(:lang => "sh") do -%>
+p054constwarn.rb:3: warning: already initialized constant A_CONST  
+<% end %>
+
+Lexicográficamente, los nombres de las constantes son parecidos a los nombres de las variables locales, excepto que comienzan  con una letra mayúscula. Por convención, muchas constantes se escriben todas en mayúsculas con guiones bajos para separar las palabras, COMO_ESTO, las clases y los módulos de Ruby también son constantes, pero ellos por convención se escriben con la letra mayúscula inicial en modo camelización, ComoEsto.
+
+Notar que las constantes no existen hasta que se les asigne un valor.
+
+Aunque las constantes no deberían ser cambiadas, puedes modificar el estado interno de los objetos que referencias, como se ve en <strong>p055constalter.rb</strong>
+
+<% coderay(:lang => "ruby") do -%>
+# p055constalter.rb  
+A_CONST = "Doshi"  
+B_CONST = A_CONST  
+A_CONST[0] = "J" # alter string referenced by constant  
+puts A_CONST # displays Joshi  
+puts B_CONST # also displays Joshi  
+<% end %>
+
+<table>
+<tr><td>
+EN RAILS: Puedes encontrar ejemplos de esta clase de operación (modificación) en el código fuente del Rails, donde hay muchas constantes y los objetos que ellas representan sufren cambios frecuentes.
+</td></tr>
+</table>
+
+
+Nota:
+
+* Las constantes definidas dentro de una clase o módulo pueden ser accedida desde cualquier lugar dentro de la clase o módulo.
+* Fuera de la clase o módulo, pueden accederse utilizando el operador scope, <strong>::</strong> prefijada por una expresión que regrese la clase apropiada o módulo.
+* Las constantes definidas fuera de una clase o módulo puede accedersen mediante ella misma o mediante el operador scope sin prefijo.
+* Las constantes no se pueden definir en métodos.
+* Las constantes se pueden agregar a clases existentes y módulos desde afuera utilizando el nombre de la clase o módulo y el operador scope antes del nombre de la constante.
+
+El programa <strong>p056const.rb</strong> muestra todo esto:
+
+<% coderay(:lang => "ruby") do -%>
+OUTER_CONST = 99  
+  
+class Const  
+    def get_const  
+      CONST  
+    end  
+    CONST = OUTER_CONST + 1  
+end  
+  
+puts Const.new.get_const  
+puts Const::CONST  
+puts ::OUTER_CONST  
+puts Const::NEW_CONST = 123  
+<% end %>
+
+Otro ejemplo elaborado sobre métodos propietarios en una clase es <strong>p057mymethods2.rb</strong>. En este ejemplo veremos además como escribir un método de clase.
+
+<% coderay(:lang => "ruby") do -%>
+# p057mymethods2.rb  
+# variables and methods start lowercase  
+$glob = 5             # global variables start with $  
+class TestVar         # class name constant, start uppercase  
+ @@cla = 6            # class variables start with @@  
+ CONST_VAL = 7        # constant style, all caps, underscore  
+ def initialize(x)    # constructor  
+  @inst = x           # instance variables start with @  
+  @@cla += 1          # each object shares @@cla  
+ end  
+ def self.cla         # class method, getter  
+  @@cla  
+ end  
+ def self.cla=(y)     # class method, setter, also TestVar.  
+  @@cla = y  
+ end  
+ def inst             # instance method, getter  
+  @inst  
+ end  
+ def inst=(i)         # instance method, setter  
+  @inst = i  
+ end  
+end  
+puts $glob  
+test = TestVar.new(3) # calls constructor  
+puts TestVar.cla      # calls getter  
+puts test.inspect     # gives object ID and instance vars  
+TestVar.cla = 4       # calls setter  
+test.inst=8           # calls setter  
+puts TestVar.cla  
+puts test.inst        # calls getter  
+other = TestVar.new(17)  
+puts other.inspect  
+puts TestVar.cla  
+<% end %>
+
+h2. Resumen

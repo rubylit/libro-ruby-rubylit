@@ -1,0 +1,65 @@
+---
+title:      Diversión con strings
+created_at: 2011-01-12 16:02:51.457007 -03:00
+filter:
+  - erb
+  - textile
+---
+p(title). <%= h(@page.title) %>
+
+Las cadenas literales o strings son secuencias de caracteres entre comillas simples o dobles.
+
+A '' (o sea a dos comillas simples que no contengan nada entre ellas), la podemos denominar una cadena vacía.
+
+Aquí tenemos un programa <strong>p003rubystrings.rb</strong> que explora a los strings un poco más extensivamente.
+
+<% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
+# p003rubystrings.rb  
+=begin  
+ Strings en Ruby 
+ En Ruby los strings son mutables  
+=end  
+   
+puts "Hola mundo"  
+# Podes usar " o ' para los strings, pero ' es mas eficiente  
+puts 'Hola mundo'  
+# Concatenación de strings  
+puts 'I like' + ' Ruby'  
+# Caracter de escape
+puts 'It\'s my Ruby'  
+# Algo nuevo aqui, mostramos el string 3 veces  
+puts 'Hello' * 3  
+# Definiendo una constante
+# Más sobre constantes más adelante 
+# http://rubylearning.com.ar/nombres-ruby.html  
+PI = 3.1416  
+puts PI 
+<% end %>
+
+<table><tr><td>
+a. Si a <strong>puts</strong> se le pasa un objeto que no es una cadena, <strong>puts</strong> llama al método <strong>to_s</strong> a aquel objeto e imprime la cadena devuelta por el mismo.
+b. En Ruby las cadenas son mutables. Pueden expandirse según se necesite sin utilizar mucho tiempo ni memoria. Ruby guarda un string como una secuencia de caracteres.
+</td></tr></table>
+
+Se conoce poco para qué sirve el string especial creado con el acento grave (`) usado como delimitador inicial y final. Por ejemplo:
+
+<% coderay(:lang => "ruby") do -%>
+puts `dir`
+<% end %>
+
+El string que forma la salida del comando del sistema operativo para ser ejecutado (le enviamos un comando dir a Windows), y luego la salida del comando (dir sobre la 
+ventana de comandos mostrará todos los archivos y subdirectorios de la carpeta) y luego será mostrado por <strong>puts</strong>.
+
+En Linux y Mac, deberías ejecutar lo siguiente:
+
+<% coderay(:lang => "ruby") do -%>
+puts `ls`
+<% end %>
+
+Otra forma de disparar un proceso separado es usar el método del Kernel <strong>system</strong>. El método ejecuta el comando dado en un sub-proceso; el mismo regresa true si el comando lo encontró y se ejecutó apropiadamente. Retorna false si el comando terminó con un status distinto a cero y nil si el comando falló al ejecutarse. Recuerda que la salida del comando tendrá el mismo destino que el de tu programa.
+
+<% coderay(:lang => "ruby") do -%>
+system("tar xzf test.tgz") # => true
+<% end %>
+
+
