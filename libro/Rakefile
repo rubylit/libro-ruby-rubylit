@@ -1,0 +1,22 @@
+BOOK_FILENAME = "ruby-para-hombre-lobo_rubylit"
+TITLE = "title.txt"
+TOC = "--toc --toc-depth=2"
+LATEX_CLASS = "book"
+CAPITULOS = File.open("index.md").readlines.map { |l| l.chomp }.join(" ")
+
+task :default => [:pdf, :epub, :html]
+
+desc "Genera la versión pdf del libro"
+task :pdf do
+  `pandoc #{TOC} -S -o output/#{BOOK_FILENAME}.pdf -V documentclass=#{LATEX_CLASS} #{TITLE} #{CAPITULOS}`
+end
+
+desc "Genera la versión epub del libro"
+task :epub do
+  `pandoc #{TOC} -S -o output/#{BOOK_FILENAME}.epub #{TITLE} #{CAPITULOS}`
+end
+
+desc "Genera la versión html del libro"
+task :html do
+  `pandoc #{TOC}  --standalone --to=html5 -o output/#{BOOK_FILENAME}.html #{TITLE} #{CAPITULOS}`
+end
