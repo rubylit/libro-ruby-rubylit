@@ -1,11 +1,4 @@
----
-title: Más sobre strings - cadenas
-created_at: 2011-01-28 08:17:10.188646 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Más sobre strings
 
 h2. Más acerca de las cadenas (strings)
 

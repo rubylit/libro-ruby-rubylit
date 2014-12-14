@@ -1,11 +1,4 @@
----
-title:     Code blocks 
-created_at: 2011-01-28 08:17:48.272858 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Bloques de código
 
 Los <strong>Code blocks de Ruby</strong> (denominados closures en otros lenguajes) son definitivamente una de las características más atractivas de Ruby. Son trozos de código entre llaves o entre <strong>do - end</strong> que puedes asociar con invocacionas a métodos, casi como si ellos fueran parámetros. Un block de Ruby es una manera de agrupar sentencias y pueden aparecer en el fuente adyacente a la llamada a un método; el block se escribe comenzando con la misma línea como el método a llamar con último parámetro (o el paréntesis de cierre de la lista de parámetros). El código en el bloque no se ejecuta en el momento en que se lo encuentra. En lugar de esto, Ruby recuerda el contexto en el que aparece de block (las variables locales, los objetos activos y así siguiendo) y luego entra el método.
 

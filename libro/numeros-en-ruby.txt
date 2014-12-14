@@ -1,11 +1,4 @@
----
-title:      Numeros-en-Ruby
-created_at: 2011-01-12 12:27:45.856946 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Números
 
 Juguemos con números. En Ruby, los números sin decimal son llamados enteros y los números con punto decimal se llaman por lo general de punto flotante (debes tener al menos un dígito luego del punto decimal). Un entero literal es simplemente una secuencia de dígitos, por ejemplo: 0, 123, 12345678. Se puede instertar un guión bajo (underscore) en un entero literal (que no sea al principio o al final), esta característica se usa generalmente para los separadores de los miles, por ejemplo 1_000_000. Los guiones bajos son ignorados en la cadena de dígitos. Veamos el programa <strong>p002rubynumbers.rb</strong>.
 

@@ -1,38 +1,20 @@
----
-title:      Obteniendo la entrada
-created_at: 2011-02-07 15:31:44.240470 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
 
+Obteniendo la entrada
 
-Hasta donde hemos visto, un método como <b>puts</b> escribe a pantalla, ¿pero como hace uno para aceptar el ingreso de parte del usuario? Para esto son útiles <b>gets</b>(obtiene una cadena) y <b>chomp</b>. El ejemplo <b>p005methods.rb</b> a continuación ilustra lo mismo.
+Hasta donde hemos visto, un método como puts escribe a pantalla, ¿pero como hace uno para aceptar el ingreso de parte del usuario? Para esto son útiles gets(obtiene una cadena) y chomp. El ejemplo p005methods.rb a continuación ilustra lo mismo.
 
-<% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
-# p005methods.rb  
-# gets and chomp  
-puts "In which city do you stay?"  
-STDOUT.flush  
-city = gets.chomp  
-puts "The city is " + city  
-<% end %>
+STDOUT es una constante global que contiene la salida estandar actual del programa. flush elimina cualquier información alojada en el buffer del sistema operativo subyacente (esta es una operación de buffering interna de Ruby). Su uso no es obligatorio pero es recomendable.
+
+gets acepta una linea simple de datos desde la entrada estandar - el teclado en este caso. La entrada estandar es provista por muchos sistemas operativos, y se refiere al modo por defecto de aceptar ingreso por parte del usuario. En nuestro caso, la entrada estandar es el teclado.
+
+chomp es un método string y gets unicamente obtiene cadenas desde tu teclado. De este modo, gets devuelve una cadena con un caracter ‘\n’, y chomp remueve este ‘\n’
 
 
 
-Cuando corres el ejemplo de arriba en SciTE, <b>cliquea en la ventana de salida(a la derecha de SciTE)</b> y luego escribe el nombre de tu ciudad.
+EN RAILS:  Los datos viene de muchos orígenes. En una aplicación Rails típìca, provienen de la base de datos. Como desarrollador Rails, es posible que te encuentres a ti mismo usando algunas de estas facilidades, debido a que Rails realiza la obtención de datos por ti. Cuando tus usuarios interactúen con el teclado, usualmente lo harán en un formulario Web.
 
-<b>STDOUT</b> es una constante global que contiene la salida estandar actual del programa. <b>flush</b> elimina cualquier información alojada en el buffer del sistema operativo subyacente (esta es una operación de buffering interna de Ruby). Su uso no es obligatorio pero es recomendable.
 
-<b>gets</b> acepta una linea simple de datos desde la entrada estandar - el teclado en este caso. La entrada estandar es provista por muchos sistemas operativos, y se refiere al modo por defecto de aceptar ingreso por parte del usuario. En nuestro caso, la entrada estandar es el teclado.
 
-<b>chomp</b> es un método string y <b>gets</b> unicamente obtiene cadenas desde tu teclado. De este modo, <b>gets</b> devuelve una cadena con un caracter ‘\n’, y <b>chomp</b> remueve este ‘\n’
-<table>
-<tr>
-<td>
-<b>EN RAILS: </b> Los datos viene de muchos orígenes. En una aplicación Rails típìca, provienen de la base de datos. Como desarrollador Rails, es posible que te encuentres a ti mismo usando algunas de estas facilidades, debido a que Rails realiza la obtención de datos por ti. Cuando tus usuarios interactúen con el teclado, usualmente lo harán en un formulario Web.
-</td>
-</tr>
-</table>
+
+
 

@@ -1,11 +1,4 @@
----
-title:     Constantes en Ruby 
-created_at: 2011-04-27 13:46:42.300844 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Constantes en Ruby
 
 Las constantes en Ruby son como una variable, excepto que su valor se supone que permanece constante mientras el programa se ejecute. El intérprete de Ruby no tiene en realidad una forma de forzar la invariancia de las constantes, pero nos da un aviso si el programa cambia un valor de una constante (como mostramos en el siguiente ejemplo trivial) <strong>p054constwarn.rb</strong>
 

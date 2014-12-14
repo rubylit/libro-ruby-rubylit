@@ -1,11 +1,4 @@
----
-title:      Escritura de métodos propios en Ruby 
-created_at: 2011-01-20 17:42:36.756026 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Escritura de métodos propios en Ruby 
 
 Con un simple programa veremos cómo podemos crear nuestros propios métodos: <strong>p008mymethods.rb</strong>. Observa que usamos <strong>def</strong> y <strong>end</strong> para declarar un método. Los parámetros son una simple lista de nombres de variables locales entre paréntesis.
 

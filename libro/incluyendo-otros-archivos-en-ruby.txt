@@ -1,11 +1,4 @@
----
-title:      Incluyendo otros archivos en ruby
-created_at: 2011-04-27 09:54:19.645822 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Incluyendo otros archivos en ruby
 
 Cuando escibimos nuestros primeros programas en Ruby, tendemos a poner todo el código en un solo archivo. Pero a medida que crezcas como un programador Ruby, sus programas también crecerán en tamaño y en algún momento te darás cuenta que tener un solo archivo contiendo todo tu código no es algo que quieras hacer. Es sencillo partir tu código en agrupaciones lógicas y poner a cada grupo en un archivo o archivos separados. Cuando comiences a usar muchos archivos, necesitas los métodos de Ruby <strong>require</strong> y <strong>load</strong> (ambas son funciones globales definidas en <strong>Object</strong>, pero se utilizan como keywords del lenguaje) que ayudan a incluir otros archivos en tus programas.
 

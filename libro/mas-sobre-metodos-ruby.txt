@@ -1,11 +1,4 @@
----
-title:      Más información sobre los métodos de Ruby
-created_at: 2011-01-20 10:26:50.556208 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Más información sobre los métodos de Ruby
 
 Si los objetos (tales con strings, enteros y de punto flotante) son los sustantivos, entonces los métodos son los verbos. Cada método necesita un objeto. Por lo general es más fácil qué objeto está ejecutando el método: es lo que viene justo antes del punto. Sin embargo a veces no es tan obvio. Cuando usamos <strong>puts</strong>, <strong>gets</strong> ¿dónde estan sus objetos? En Ruby el objeto implícito es cualquiera que hayas puesto allí. Pero aún no sabes cómo hacer para saber qué objeto es; para ello tenemos un objeto especial (<strong>main</strong>) que Ruby crea para nosotros y representa todo el programa. Siempre puedes saber en que objeto estás (objeto corriente) mediante la variable especial <strong>self</strong>.
 

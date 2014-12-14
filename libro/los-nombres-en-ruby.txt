@@ -1,11 +1,4 @@
----
-title:      Los nombres en Ruby
-created_at: 2011-01-18 12:20:38.354160 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Los nombres en Ruby
 
 <strong>Los nombres Ruby</strong> se usa para referirse a constantes, variables, clases y módulos. El primer caracter del nombre le ayuda a Ruby distinguir su uso. Ciertos nombres son palabras reservadas y no deberían ser usados como nombre de variables, métodos, clases o módulos. Las letras minúsculas son los caracteres de la "a" a la "z". Las mayúsculas son los los caracteres "A" hasta "Z" y los dígitos son los "0" al "9". Un nombre es una letra mayúscula, letra minúscula o un guión bajo "_", seguido por los caracteres de nombre (esto es, cualquier combinación de letras minúsculas o mayúsculas, el guión bajo y dígitos).
 

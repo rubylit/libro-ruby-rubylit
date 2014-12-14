@@ -1,12 +1,4 @@
----
-title:      Estructuras simples
-created_at: 2011-01-28 08:17:30.717056 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
-
+Estructuras simples
 
 En Ruby, sólo <strong>nil</strong> y <strong>false</strong> son evaluados como falso, todo lo demás (incluyendo 0), es verdadero. En Ruby <strong>nil</strong> es un objeto. Puedes agregar métodos a <strong>nil</strong> como a cualquier otro objeto y puedes llamar los métodos de nil como los de cualquier otro objeto.
 

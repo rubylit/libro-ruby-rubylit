@@ -1,11 +1,4 @@
----
-title:      Variables y asignaciones
-created_at: 2011-01-13 11:01:48.597561 -03:00
-filter:
-  - erb
-  - textile
----
-p(title). <%= h(@page.title) %>
+Variables y asignaciones
 
 Para guardar un número o un string en la memoria de su computadora para poder utilizarlo a posteriori en su programa, necesitas darle a ese string o número un nombre. 
 Los programadores se refieren con frecuencia este procedimiento asignación y a los nombres, variables. Una variable salta a la existencia tan pronto como el intérprete ve una asignación a la variable mencionada.
