@@ -1,0 +1,13 @@
+caracteristicas.txt
+numeros-en-ruby.txt
+diversion-con-strings.txt
+variables-y-asignaciones.txt
+alcance-de-las-variables.txt
+obteniendo-entrada.txt
+los-nombres-en-ruby.txt
+mas-sobre-metodos-ruby.txt
+metodos-propios-ruby.txt
+mas-sobre-strings.txt
+construcciones-simples.txt
+bloques-ruby.txt
+vectores-ruby.txt
