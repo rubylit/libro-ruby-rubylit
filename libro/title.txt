@@ -1,0 +1,10 @@
+---
+title:
+- type: main
+  text: Ruby para hombres lobo
+- type: subtitle
+  text: Un guía para leer en luna llena
+author: RubyLit
+rights:  Creative Commons Share Alike 4.0
+language: es-AR
+---
